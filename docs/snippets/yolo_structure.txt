@@ -1,0 +1,14 @@
+
+/yolo_project
+├── /datasets
+│   ├── /images    # Contains all raw screenshots
+│   │   ├── /train # Training images go here
+│   │   ├── /val   # Validation images go here
+│   │   └── /test  # Test images go here
+│   │
+│   └── /labels    # Contains all annotation text files (.txt)
+│       ├── /train # Training label files go here
+│       ├── /val   # Validation label files go here
+│       └── /test  # Test label files go here
+│
+└── training_config.yaml

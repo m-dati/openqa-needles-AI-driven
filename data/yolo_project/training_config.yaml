@@ -1,0 +1,19 @@
+# Absolute path to our dataset root directory 
+path: data/yolo_project/datasets 
+
+# Training/Validation/Test set paths (relative to 'path') 
+train: images/train 
+val: images/val 
+test: images/test 
+
+# Number of classes 
+nc: 5 # Example: we have 5 element types (Button, Field, Text, Prompt, Unknown) 
+# Class names (must match the order of our class indices 0, 1, 2, ...)
+
+names: 
+  0: login_button 
+  1: username_field 
+  2: terminal_prompt 
+  3: error_message 
+  4: next_button 
+# end 
