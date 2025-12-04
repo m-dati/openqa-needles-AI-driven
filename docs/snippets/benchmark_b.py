@@ -1,4 +1,4 @@
-# Pseudo-code for openQA comparison
+# Pseudo-code for comparison
 start_time_old = time.perf_counter()
 for image_path, needle_data in test_list:
     openqa_match_function(image_path, needle_data) 
