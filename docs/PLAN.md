@@ -33,15 +33,19 @@ framework; that is:
 
 ## <span id="anchor-4"></span>Hackweek POC
 
-**Steps**
-- study the available tools
-- prepare a plan for the process to build
-- write and build a draft application
-- prepare the data archive from a subset of needles
-- initialize/pre-train the base archive
-- select a screenshot from the subset, removing/changing some part
-- run the POC application
-- expect the image type is identified in a good %.
+**Main steps**
+- Phase 1 - Plan
+  - study the available tools
+  - prepare a plan for the process to build
+- Phase 2 - Implement
+  - write and build a draft application
+- Phase 3 - Data
+  - prepare the data archive from a subset of needles
+  - initialize/pre-train the base archive
+  - select a screenshot from the subset, removing/changing some part
+- Phase 4 - Test
+  - run the POC application
+  - expect the image type is identified in a good %.
 
 ## <span id="anchor-5"></span>Resources
 
@@ -53,13 +57,18 @@ for the scope; some possibilities are:
 - RPA test tools (like i.e. Robot framework)
 - other.
 
-# <span id="anchor-6"></span>Resources
+## 
+
+# 1 <span id="anchor-10"></span>Plan
+
+
+## <span id="anchor-6"></span>Resources
 
 To **identify the screen status** (GUI or CLI-terminal screenshots) we
 focus on **Deep Learning** frameworks, for **Object Detection** and
 **Image Classification.**
 
-## <span id="anchor-7"></span>Core Deep Learning Framework
+### <span id="anchor-7"></span>Core Deep Learning Framework
 
 Two dominant, production-ready deep learning libraries:
 
@@ -83,13 +92,13 @@ ecosystem;</p>
 </tbody>
 </table>
 
-## <span id="anchor-8"></span>Computer Vision Library
+### <span id="anchor-8"></span>Computer Vision Library
 
 | **Library** | **Why it's suitable** |
 |----|----|
 | OpenCV (Open Source Computer Vision Library) | Essential for all image preprocessing tasks: loading images, resizing, cropping, generating masks, and performing general image manipulation before feeding the data to the neural network. |
 
-## <span id="anchor-9"></span>Model Architecture
+### <span id="anchor-9"></span>Model Architecture
 
 For our task, we're looking for two primary capabilities:
 
@@ -131,21 +140,6 @@ dramatically reduces the data and time needed for training.</td>
 </tbody>
 </table>
 
-## 
-
-# <span id="anchor-10"></span>Plan
-
-## <span id="anchor-11"></span>Main tasks
-
-the first steps for the POC should focus heavily on data preparation and
-model selection:
-
-1.  **Select Framework**: Choose PyTorch and the YOLOv8 model architecture.
-2.  **Data Curation**: Select 100-200 representative screenshots.
-3.  **Annotation**: Use LabelImg or similar tool to draw bounding boxes and label elements on the screenshots (e.g., login_prompt, error_message, OK_button).
-4.  **Initial Training**: Find a YOLOv8 tutorial for custom object detection and fine-tune a pre-trained model using the annotated data.
-5.  **First Test**: Run a screenshot through the trained model and verify it correctly detects the primary elements.
-
 ## <span id="anchor-12"></span>Environment Setup
 
 - Install *Python* (3.8+).
@@ -185,8 +179,19 @@ model selection:
 - **Post-Processing/Adaptation:** Convert this structured output into a result format that can be used by the openQA test framework, effectively replacing the original "needles" output.  
   I.e. if the openQA test needs to click a button, we can now use the model's provided coordinates for that button.
 
+## <span id="anchor-11"></span>Main tasks summary
 
-# <span id="anchor-16"></span>Model and training
+the first steps for the POC should focus heavily on data preparation and
+model selection:
+
+1.  **Select Framework**: Choose PyTorch and the YOLOv8 model architecture.
+2.  **Data Curation**: Select 100-200 representative screenshots.
+3.  **Annotation**: Use LabelImg or similar tool to draw bounding boxes and label elements on the screenshots (e.g., login_prompt, error_message, OK_button).
+4.  **Initial Training**: Find a YOLOv8 tutorial for custom object detection and fine-tune a pre-trained model using the annotated data.
+5.  **First Test**: Run a screenshot through the trained model and verify it correctly detects the primary elements.
+
+
+# 2 <span id="anchor-16"></span>Model and training
 
 **YOLOv8 (You Only Look Once, version 8)** by *Ultralytics,* is currently one of the best **models** for the project, offering good balance of speed, accuracy, and ease of use, providing a clear, standardized workflow.
 
@@ -223,7 +228,7 @@ Create the following folder structure for our project: the structure must contai
  │
  └── training_config.yaml
 ```
-File [yolo_structure](snippets/yolo_structure.txt)
+File [yolo_structure](yolo_structure.txt)
 
 
 Move actual screenshot **images** (.png or .jpg) into the `/images` subfolders:
@@ -333,7 +338,8 @@ Execute the script from a terminal:
 
 ## <span id="anchor-25"></span>Step 4: Run Inference (POC Test)
 
-Once training is complete, we use the resulting *best.pt* file to detect objects on a new screenshot.
+Once training is complete, we use the resulting *`best.pt`* file to detect objects on a new screenshot.  
+Note: the `best.pt` file is a digital container of the entire learned model. Its content is only interpretable by the PyTorch framework.
 
 ### <span id="anchor-26"></span>**The Prediction Script**
 
@@ -394,7 +400,7 @@ it takes the object **detection output** (bounding boxes, classes, confidence) a
 test framework needs (coordinates for a click, an element's presence check, etc.).
 
 
-# <span id="anchor-27"></span>Writing the Draft Application (The POC Script)
+# 3 <span id="anchor-27"></span>Writing the Draft Application (The POC Script)
 
 The core of integrating our POC into a test framework is **parsing the model's output** and **translating** coordinates into **executable actions.**
 
@@ -537,7 +543,7 @@ This draft application structure directly fulfills our goals:
 3.  **openQA Adaptation:** It produces the exact coordinates that the test framework needs to proceed with a simulated mouse action.
 
 
-# <span id="anchor-31"></span>Manage Edge Cases ("Objects Not Present")
+# 4 <span id="anchor-31"></span>Manage Edge Cases ("Objects Not Present")
 
 Identifying "objects not present in the archive" is a challenging
 problem in ML (often called Anomaly Detection or Out-of-Distribution
@@ -656,7 +662,7 @@ A robust final system would combine both:
 
 Implementing Edge cases, the **Approach 1** is preferable for this POC purpose, as it is a simpler extension of our current plan and would deliver the most immediate value.
 
-# <span id="anchor-39"></span>Benchmarking the Improvement
+# 5 <span id="anchor-39"></span>Benchmarking the Improvement
 
 Final step: **Quantifying the improvement**. Benchmarking will provide the concrete data needed to justify the shift from the existing framework to the AI-based one.
 
@@ -810,7 +816,7 @@ The goal is to show that the YOLOv8 system's **mAP** is **high** (e.g.,
 than the existing **Needles Error Rate**.
 
 
-# <span id="anchor-47"></span>Expected Improvements
+# 6 <span id="anchor-47"></span>Expected Improvements
 
 ## <span id="anchor-48"></span>Metrics
 

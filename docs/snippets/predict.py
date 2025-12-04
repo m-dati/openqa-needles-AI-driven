@@ -41,7 +41,4 @@ for r in results:
 
 print("\n--- openQA Target Output ---")
 print(detections_for_openqa)
-# Example: Use the center of a box for a mouse click action
-# center_x = (x1 + x2) / 2
-# center_y = (y1 + y2) / 2
 # end
