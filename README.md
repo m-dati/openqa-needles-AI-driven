@@ -5,8 +5,7 @@
 Title: **openqa needles management with AI tools**  
 Link: https://hackweek.opensuse.org/25/projects/openqa-tests-needles-elaboration-using-ai-image-recognition  
 Repository name: openqa-needles-AI-driven  
-Author: Maurizio Dati  
-Email:  mdati@suse.de  
+Author: Maurizio Dati 
 Date start: 1/12/2025  
 
 ## Description
